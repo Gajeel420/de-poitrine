@@ -92,7 +92,7 @@ func _fire_drone_shot(from_pos: Vector2) -> void:
 	var nearest: Node2D = null
 	var nearest_dist := INF
 	for p in get_tree().get_nodes_in_group("players"):
-		var d := from_pos.distance_to(p.global_position)
+		var d: float = from_pos.distance_to(p.global_position)
 		if d < nearest_dist:
 			nearest_dist = d
 			nearest = p
@@ -132,18 +132,18 @@ func _draw_enemy() -> void:
 	var ticker_w := 80.0
 	draw_rect(Rect2(-40, -12, ticker_w, 8), Color(0.1, 0.1, 0.2))
 	# Scrolling text approximation (lines of varying width)
-	var scroll_x := fmod(ratings_text_scroll, 100) - 50
+	var scroll_x = fmod(ratings_text_scroll, 100) - 50
 	draw_rect(Rect2(-36 + scroll_x, -11, 40 * ratings_hp_display, 3),
 		Color(0.1, 0.9, 0.1) if ratings_hp_display > 0.3 else Color(0.9, 0.2, 0.1))
 
 	# Shield
 	if shield_active:
-		var shield_alpha := min(shield_timer / 2.0, 1.0) * 0.5
+		var shield_alpha = min(shield_timer / 2.0, 1.0) * 0.5
 		draw_arc(Vector2(0, -32), 40.0, 0, TAU, 32, Color(0.4, 0.6, 1.0, shield_alpha), 4.0)
 
 	# Camera drones
 	for d in camera_drones:
-		var lp := to_local(d["pos"])
+		var lp = to_local(d["pos"])
 		draw_rect(Rect2(lp.x - 7, lp.y - 5, 14, 10), Color(0.25, 0.25, 0.3))
 		draw_circle(lp + Vector2(0, -1), 4.0, Color(0.15, 0.15, 0.2))
 		draw_circle(lp + Vector2(0, -1), 2.5, Color(0.1, 0.2, 0.6))

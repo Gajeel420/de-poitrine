@@ -270,7 +270,7 @@ func _check_coop_bonus(enemy: Node, dmg: int) -> void:
 	var other_id := 2 if player_id == 1 else 1
 	for p in get_tree().get_nodes_in_group("players"):
 		if p.player_id == other_id:
-			var frame_diff := abs(Engine.get_process_frames() - p.last_attack_frame)
+			var frame_diff: int = int(abs(Engine.get_process_frames() - p.last_attack_frame))
 			if frame_diff <= 1:
 				enemy.take_damage(dmg, Vector2.ZERO)  # bonus hit
 				GameManager.trigger_screen_shake(4.0, 0.12)
@@ -321,7 +321,7 @@ func _draw() -> void:
 
 func _draw_shadow() -> void:
 	var alpha := clamp(1.0 + jump_offset / 80.0, 0.1, 0.5)
-	draw_ellipse_arc(Vector2(0, 0), Vector2(11, 4), 0, TAU, Color(0, 0, 0, alpha))
+	_draw_shadow_ellipse(Vector2(0, 0), Vector2(11, 4), 0, TAU, Color(0, 0, 0, alpha))
 
 func _draw_character(jy: float) -> void:
 	# Base implementation: polka-dot suit humanoid
@@ -378,7 +378,7 @@ func _draw_arms(jy: float, fx: int) -> void:
 	# Right arm (attack direction)
 	draw_line(Vector2(10, arm_y), Vector2(18 + arm_swing * fx, arm_y + 4), Color(0.08, 0.08, 0.08), 4)
 
-func draw_ellipse_arc(center: Vector2, radii: Vector2, angle_from: float,
+func _draw_shadow_ellipse(center: Vector2, radii: Vector2, angle_from: float,
 		angle_to: float, color: Color) -> void:
 	var nb_points := 24
 	var points_arc := PackedVector2Array()

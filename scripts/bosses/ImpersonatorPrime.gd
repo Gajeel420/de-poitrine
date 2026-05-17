@@ -60,7 +60,7 @@ func _physics_process(delta: float) -> void:
 	if current_phase == 2:
 		for p in get_tree().get_nodes_in_group("players"):
 			if p.state in [Player.State.ATTACK1, Player.State.ATTACK2, Player.State.ATTACK3]:
-				var away := (global_position - p.global_position).normalized()
+				var away: Vector2 = (global_position - p.global_position).normalized()
 				velocity += away * 120.0
 
 func _draw_enemy() -> void:

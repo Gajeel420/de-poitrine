@@ -61,12 +61,12 @@ func _update_loop_rings(delta: float) -> void:
 		ring["radius"] += 180.0 * delta
 		ring["alpha"] = 1.0 - ring["radius"] / ring["max_radius"]
 		# Damage enemies within ring band
-		var inner := ring["radius"] - 12.0
-		var outer := ring["radius"]
+		var inner: float = ring["radius"] - 12.0
+		var outer: float = ring["radius"]
 		for enemy in get_tree().get_nodes_in_group("enemies"):
 			if ring["hit_set"].has(enemy):
 				continue
-			var dist := enemy.global_position.distance_to(global_position)
+			var dist: float = enemy.global_position.distance_to(global_position)
 			if dist >= inner and dist <= outer:
 				enemy.take_damage(special_damage, Vector2.ZERO)
 				ring["hit_set"].append(enemy)
@@ -116,7 +116,7 @@ func _draw_guitar(jy: float) -> void:
 
 func _draw_loop_rings() -> void:
 	for ring in loop_rings:
-		var col := Color(0.3, 0.9, 1.0, ring["alpha"] * 0.8)
+		var col = Color(0.3, 0.9, 1.0, ring["alpha"] * 0.8)
 		var r: float = ring["radius"]
 		# Draw arc in 48 segments
 		var pts := PackedVector2Array()
@@ -126,7 +126,7 @@ func _draw_loop_rings() -> void:
 		for i in range(48):
 			draw_line(pts[i], pts[i + 1], col, 2.0)
 		# Inner glow ring
-		var col2 := Color(0.6, 1.0, 1.0, ring["alpha"] * 0.4)
+		var col2 = Color(0.6, 1.0, 1.0, ring["alpha"] * 0.4)
 		var r2 := r - 8.0
 		if r2 > 0:
 			var pts2 := PackedVector2Array()
@@ -140,8 +140,8 @@ func _draw_arms(jy: float, fx: int) -> void:
 	# KHN swings guitar in attack — wider arc
 	var arm_y := jy - 28.0
 	if state in [State.ATTACK1, State.ATTACK2, State.ATTACK3]:
-		var t := 1.0 - max(attack_timer, 0.0) / attack_duration
-		var swing_angle := -PI * 0.6 * t * fx
+		var t: float = 1.0 - max(attack_timer, 0.0) / attack_duration
+		var swing_angle: float = -PI * 0.6 * t * fx
 		var arm_end := Vector2(cos(swing_angle) * 22, sin(swing_angle) * 22 + arm_y)
 		draw_line(Vector2(0, arm_y), arm_end, Color(0.08, 0.08, 0.08), 5)
 		# Guitar head at arm end

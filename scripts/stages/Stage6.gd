@@ -68,7 +68,7 @@ func _draw_background() -> void:
 
 	# Floor-to-ceiling glass panels (pyramid facets)
 	for i in range(8):
-		var px := fmod(t * 0.4 + i * 82, 760) - 80
+		var px = fmod(t * 0.4 + i * 82, 760) - 80
 		draw_line(Vector2(px, 0), Vector2(px + 40, 220), Color(0.10, 0.12, 0.18, 0.4), 1.0)
 		draw_line(Vector2(px + 82, 0), Vector2(px + 42, 220), Color(0.10, 0.12, 0.18, 0.4), 1.0)
 		# Faint reflection
@@ -76,7 +76,7 @@ func _draw_background() -> void:
 
 	# SPEC-13 logos (inverted triangles) on every wall panel
 	for i in range(12):
-		var sx := fmod(t * 0.4 + i * 55, 720) - 55
+		var sx = fmod(t * 0.4 + i * 55, 720) - 55
 		var sy := 40 + i % 4 * 40
 		var logo_alpha := 0.25 + sin(Time.get_ticks_msec() * 0.001 + i * 0.5) * 0.1
 		draw_colored_polygon(
@@ -86,7 +86,7 @@ func _draw_background() -> void:
 
 	# Ambient blue-purple light shafts (descending from pyramid apex)
 	for i in range(5):
-		var lx := fmod(t * 0.2 + i * 130, 780) - 78
+		var lx = fmod(t * 0.2 + i * 130, 780) - 78
 		draw_colored_polygon(
 			PackedVector2Array([Vector2(lx - 2, 0), Vector2(lx + 2, 0), Vector2(lx + 30, 220), Vector2(lx - 30, 220)]),
 			Color(0.15, 0.20, 0.55, 0.06)
@@ -94,7 +94,7 @@ func _draw_background() -> void:
 
 	# Saguenay city lights visible through glass (floor 6 view)
 	for i in range(30):
-		var bx := fmod(t * 0.1 + i * 22, 680) - 22
+		var bx = fmod(t * 0.1 + i * 22, 680) - 22
 		var by_val := 150 + i % 5 * 14
 		draw_rect(Rect2(bx, by_val, 4, 8), Color(0.9, 0.85, 0.6, 0.15 + float(i % 3) * 0.06))
 

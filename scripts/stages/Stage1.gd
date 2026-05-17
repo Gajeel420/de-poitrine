@@ -63,7 +63,7 @@ func _draw_background() -> void:
 
 	# Back wall wood panels
 	for i in range(9):
-		var px := fmod(t * 0.3 + i * 72, 720) - 72
+		var px = fmod(t * 0.3 + i * 72, 720) - 72
 		draw_rect(Rect2(px, 20, 68, 200), Color(0.18, 0.11, 0.07))
 		draw_line(Vector2(px, 20), Vector2(px, 220), Color(0.10, 0.06, 0.04), 2)
 		draw_line(Vector2(px + 68, 20), Vector2(px + 68, 220), Color(0.10, 0.06, 0.04), 2)
@@ -74,7 +74,7 @@ func _draw_background() -> void:
 	# Shelf with bottles
 	draw_rect(Rect2(0, 140, 640, 10), Color(0.25, 0.16, 0.10))
 	for i in range(18):
-		var bx := fmod(t * 0.4 + i * 36, 720) - 36
+		var bx = fmod(t * 0.4 + i * 36, 720) - 36
 		var bh := 24 + (i % 3) * 8
 		var bottle_col := [
 			Color(0.15, 0.35, 0.15),
@@ -91,7 +91,7 @@ func _draw_background() -> void:
 
 	# Dim hanging lamp circles
 	for i in range(5):
-		var lx := fmod(t * 0.5 + i * 130, 780) - 130
+		var lx = fmod(t * 0.5 + i * 130, 780) - 130
 		draw_circle(Vector2(lx, 30), 12, Color(0.55, 0.48, 0.22))
 		draw_circle(Vector2(lx, 30), 8, Color(0.9, 0.8, 0.5, 0.7))
 		draw_line(Vector2(lx, 0), Vector2(lx, 20), Color(0.35, 0.28, 0.18), 2)

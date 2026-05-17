@@ -28,7 +28,7 @@ func _physics_process(delta: float) -> void:
 func _spawn_speech_bubble() -> void:
 	# Speech bubbles float toward players and must be punched
 	var dir := Vector2(randf_range(-1, 1), randf_range(-0.5, -0.2)).normalized()
-	var text_options := ["CONTENT!", "ENGAGEMENT!", "METRICS!", "REACH!", "SYNERGY!"]
+	var text_options = ["CONTENT!", "ENGAGEMENT!", "METRICS!", "REACH!", "SYNERGY!"]
 	speech_bubbles.append({
 		"pos": Vector2(global_position),
 		"vel": dir * 70.0,
@@ -55,7 +55,7 @@ func _update_bubbles(delta: float) -> void:
 		# Can be punched by player attacks (check via proximity to attack hitbox)
 		for p in get_tree().get_nodes_in_group("players"):
 			if p.state in [Player.State.ATTACK1, Player.State.ATTACK2, Player.State.ATTACK3]:
-				var box := p._get_attack_hitbox()
+				var box = p._get_attack_hitbox()
 				if box.has_point(b["pos"]):
 					b["hp"] = 0
 					p._gain_special(4.0)
@@ -85,7 +85,7 @@ func _draw_enemy() -> void:
 
 	# Floating speech bubbles
 	for b in speech_bubbles:
-		var lp := to_local(b["pos"])
+		var lp = to_local(b["pos"])
 		draw_rect(Rect2(lp.x - 18, lp.y - 10, 36, 20), Color(1.0, 1.0, 1.0, 0.9))
 		draw_arc(lp, 18.0, 0, TAU, 24, Color(0.6, 0.6, 0.6), 1.5)
 		# Tail

@@ -80,7 +80,7 @@ func _draw_enemy() -> void:
 
 	# Thrown books
 	for b in book_projectiles:
-		var local_pos := to_local(b["pos"])
+		var local_pos = to_local(b["pos"])
 		draw_rect(Rect2(local_pos.x - 5, local_pos.y - 4, 10, 8), Color(0.8, 0.2, 0.1))
 
 	# Health bar

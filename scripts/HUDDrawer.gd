@@ -46,7 +46,7 @@ func _draw_boss_bar() -> void:
 	# Background
 	draw_rect(Rect2(bx - 2, by - 2, bw + 4, 12), Color(0.10, 0.10, 0.12))
 	# Fill — red to orange as damage accumulates
-	var ratio := hud.boss_hp / hud.boss_hp_max
+	var ratio = hud.boss_hp / hud.boss_hp_max
 	var bar_col := Color(0.9 + (1.0 - ratio) * 0.1, 0.15 + (1.0 - ratio) * 0.4, 0.15)
 	draw_rect(Rect2(bx, by, bw * clamp(ratio, 0.0, 1.0), 8), bar_col)
 	draw_rect(Rect2(bx - 1, by - 1, bw + 2, 10), Color(0.6, 0.5, 0.4, 0.7), false)
@@ -54,14 +54,14 @@ func _draw_boss_bar() -> void:
 	_draw_pixel_text(hud.boss_name_text, Vector2(bx, by - 12), Color(0.9, 0.85, 0.7))
 
 func _draw_score() -> void:
-	var score_str := "SCORE: %07d" % hud.displayed_score
+	var score_str: String = "SCORE: %07d" % hud.displayed_score
 	_draw_pixel_text(score_str, Vector2(240, 8), Color(0.95, 0.90, 0.70))
 
 func _draw_stage_name() -> void:
 	if hud.stage_name_timer <= 0.0:
 		return
-	var alpha := min(hud.stage_name_timer, 1.0)
-	var stage_name := GameManager.STAGE_NAMES[hud.stage_number]
+	var alpha = min(hud.stage_name_timer, 1.0)
+	var stage_name: String = GameManager.STAGE_NAMES[hud.stage_number]
 	_draw_pixel_text(stage_name, Vector2(240, 26), Color(0.9, 0.85, 0.6, alpha))
 
 # Pixel text renderer — draws colored bars for each character (lo-fi look)
