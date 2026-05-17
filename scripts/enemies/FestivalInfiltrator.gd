@@ -21,7 +21,7 @@ func _find_target() -> void:
 		mirror_target_is_khn = target.is_in_group("players") and target.player_id == 1
 
 func _draw_enemy() -> void:
-	var fx := 1 if facing_right else -1
+	var fx: int = 1 if facing_right else -1
 	var skin := Color(0.85, 0.72, 0.60)
 	var shoe := Color(0.20, 0.15, 0.10)
 

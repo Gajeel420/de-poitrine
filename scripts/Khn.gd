@@ -88,7 +88,7 @@ func _draw_character(jy: float) -> void:
 	_draw_loop_rings()
 
 func _draw_guitar(jy: float) -> void:
-	var fx := 1 if facing_right else -1
+	var fx: int = 1 if facing_right else -1
 	# Double-neck guitar body (Strat + Precision bass hybrid)
 	var gx := fx * 14
 	var gy := jy - 28.0

@@ -114,7 +114,7 @@ func _draw_character(jy: float) -> void:
 	_draw_odd_meter_aura(jy)
 
 func _draw_drumsticks(jy: float) -> void:
-	var fx := 1 if facing_right else -1
+	var fx: int = 1 if facing_right else -1
 	var attack_swing := 0.0
 	if state in [State.ATTACK1, State.ATTACK2, State.ATTACK3]:
 		attack_swing = PI * 0.7 * (1.0 - max(attack_timer, 0.0) / attack_duration)

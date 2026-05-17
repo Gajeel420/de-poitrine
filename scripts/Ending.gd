@@ -87,7 +87,7 @@ func _draw_kexp_scene() -> void:
 	for i in range(22):
 		var cx := 30 + i * 28
 		var ch := 30 + i % 5 * 8
-		var sway := sin(crowd_sway + i * 0.4) * 3.0
+		var sway: float = sin(crowd_sway + i * 0.4) * 3.0
 		draw_rect(Rect2(cx, 240 - ch + sway, 10, ch), Color(0.05, 0.03, 0.04))
 		draw_circle(Vector2(cx + 5, 241 - ch + sway), 6, Color(0.05, 0.03, 0.04))
 

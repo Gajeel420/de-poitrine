@@ -141,7 +141,7 @@ func _algorithm_rewritten() -> void:
 	_die()
 
 func _draw_enemy() -> void:
-	var fx := 1 if facing_right else -1
+	var fx: int = 1 if facing_right else -1
 	var skin := Color(0.82, 0.70, 0.58)
 	var suit := suit_quality
 	var energy_glow := Color(0.7, 0.4, 1.0, absorbed_energy * 0.6)

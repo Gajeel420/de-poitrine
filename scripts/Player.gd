@@ -231,13 +231,13 @@ func _state_to_anim() -> String:
 # ──────────────────────────────────────────────
 
 func _get_attack_hitbox() -> Rect2:
-	var reach := 36.0 if state == State.ATTACK3 else 28.0
-	var ox := reach if facing_right else -reach - 20.0
+	var reach: float = 36.0 if state == State.ATTACK3 else 28.0
+	var ox: float = reach if facing_right else -reach - 20.0
 	var oy := jump_offset - 30.0
 	return Rect2(position.x + ox, position.y + oy, 20.0, 24.0)
 
 func _get_kick_hitbox() -> Rect2:
-	var ox := 30.0 if facing_right else -50.0
+	var ox: float = 30.0 if facing_right else -50.0
 	return Rect2(position.x + ox, position.y + jump_offset - 22.0, 22.0, 20.0)
 
 func _check_attack_hits() -> void:
@@ -257,7 +257,7 @@ func _check_attack_hits() -> void:
 			continue
 		var ep: Vector2 = enemy.global_position
 		if box.has_point(ep):
-			var knockback := Vector2((1 if facing_right else -1) * 60.0, 0)
+			var knockback: Vector2 = Vector2((1 if facing_right else -1) * 60.0, 0)
 			enemy.take_damage(dmg, knockback)
 			already_hit.append(enemy)
 			_gain_special(8.0)
@@ -267,7 +267,7 @@ func _check_attack_hits() -> void:
 
 func _check_coop_bonus(enemy: Node, dmg: int) -> void:
 	# If the other player also attacked this frame → double microtonal damage
-	var other_id := 2 if player_id == 1 else 1
+	var other_id: int = 2 if player_id == 1 else 1
 	for p in get_tree().get_nodes_in_group("players"):
 		if p.player_id == other_id:
 			var frame_diff: int = int(abs(Engine.get_process_frames() - p.last_attack_frame))
@@ -330,10 +330,10 @@ func _draw_character(jy: float) -> void:
 	var shoe := Color(0.25, 0.18, 0.10)
 	var dot  := Color(1.0, 1.0, 1.0)
 
-	var fx := 1 if facing_right else -1
+	var fx: int = 1 if facing_right else -1
 
 	# Legs (animated walk cycle)
-	var swing := sin(anim_frame * TAU / 8.0) * 4.0
+	var swing: float = sin(anim_frame * TAU / 8.0) * 4.0
 	if state == State.WALK:
 		draw_rect(Rect2(fx * -9 - 7, jy - 16, 7, 16), suit)
 		draw_rect(Rect2(fx * 2, jy - 16 + swing, 7, 16), suit)

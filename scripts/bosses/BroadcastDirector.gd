@@ -112,7 +112,7 @@ func take_damage(amount: int, knockback: Vector2 = Vector2.ZERO) -> void:
 func _draw_enemy() -> void:
 	var suit := enemy_color
 	var skin := Color(0.80, 0.68, 0.58)
-	var fx := 1 if facing_right else -1
+	var fx: int = 1 if facing_right else -1
 
 	# Very large director figure
 	draw_rect(Rect2(-14, -24, 11, 24), suit)

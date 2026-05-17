@@ -108,7 +108,7 @@ func _stomp() -> void:
 			p.take_damage(15, Vector2.ZERO)
 
 func _draw_enemy() -> void:
-	var fx := 1 if facing_right else -1
+	var fx: int = 1 if facing_right else -1
 	# Giant — 1.5x normal enemy size
 	var face_col := Color(0.75 + face_redness * 0.2, 0.35 - face_redness * 0.15, 0.25 - face_redness * 0.1)
 	var suit := Color(0.12, 0.12, 0.16)  # bouncer black

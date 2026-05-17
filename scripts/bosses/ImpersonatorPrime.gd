@@ -69,10 +69,10 @@ func _draw_enemy() -> void:
 	var skin := Color(0.82, 0.72, 0.60)
 	var shoe := Color(0.22, 0.17, 0.12)
 	var dot := Color(0.9, 0.9, 0.9)   # almost white but slightly off
-	var fx := 1 if facing_right else -1
+	var fx: int = 1 if facing_right else -1
 
 	# Legs
-	var swing := sin(float(Engine.get_process_frames()) * 0.3) * 4.0
+	var swing: float = sin(float(Engine.get_process_frames()) * 0.3) * 4.0
 	draw_rect(Rect2(-9, -16, 7, 16), suit)
 	draw_rect(Rect2(2, -16, 7, 16 + swing), suit)
 	draw_rect(Rect2(-11, -4, 9, 4), shoe)

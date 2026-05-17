@@ -44,7 +44,7 @@ func _physics_process(delta: float) -> void:
 	super._physics_process(delta)
 
 func _draw_enemy() -> void:
-	var fx := 1 if facing_right else -1
+	var fx: int = 1 if facing_right else -1
 	var suit := enemy_color
 	var void_color := Color(0.0, 0.0, 0.05)  # almost nothing inside
 

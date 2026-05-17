@@ -70,7 +70,7 @@ func _draw_background() -> void:
 		var lx: float = fmod(t * 0.5 + i * 66, 780) - 66
 		var lh := 30 + i % 3 * 20
 		draw_line(Vector2(lx, 0), Vector2(lx, lh), Color(0.25, 0.20, 0.14), 1.5)
-		var light_col = [Color(0.9, 0.3, 0.3), Color(0.3, 0.7, 0.9), Color(0.9, 0.8, 0.2)][i % 3]
+		var light_col: Color = [Color(0.9, 0.3, 0.3), Color(0.3, 0.7, 0.9), Color(0.9, 0.8, 0.2)][i % 3]
 		draw_circle(Vector2(lx, lh), 8, light_col)
 		draw_circle(Vector2(lx, lh), 4, Color(1.0, 1.0, 1.0, 0.6))
 		# Light cone

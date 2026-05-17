@@ -34,8 +34,8 @@ func _draw() -> void:
 		)
 
 	# GAME OVER text
-	var blink := sin(flash_timer * 4.0) > 0.0
-	var go_col := Color(0.95, 0.20, 0.15) if blink else Color(0.75, 0.15, 0.10)
+	var blink: bool = sin(flash_timer * 4.0) > 0.0
+	var go_col: Color = Color(0.95, 0.20, 0.15) if blink else Color(0.75, 0.15, 0.10)
 	_draw_text("GAME", Vector2(130, 120), go_col, 8)
 	_draw_text("OVER", Vector2(320, 120), go_col, 8)
 

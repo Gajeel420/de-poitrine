@@ -134,6 +134,10 @@ func get_shake_offset() -> Vector2:
 		randf_range(-shake_intensity, shake_intensity)
 	)
 
+func check_tlmep_unlock() -> void:
+	if not stage4_took_damage and not stage4_missed_sync:
+		tlmep_mode_unlocked = true
+
 func advance_stage() -> void:
 	if current_stage == 4:
 		if not stage4_took_damage and not stage4_missed_sync:

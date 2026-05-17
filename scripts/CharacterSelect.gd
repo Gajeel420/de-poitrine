@@ -34,8 +34,8 @@ func _draw() -> void:
 	draw_line(Vector2(60, 38), Vector2(580, 38), Color(0.45, 0.38, 0.28, 0.5), 1.0)
 
 	# Panel backgrounds
-	var khn_col := Color(0.15, 0.12, 0.08) if selected == 0 else Color(0.08, 0.07, 0.06)
-	var klek_col := Color(0.15, 0.12, 0.08) if selected == 1 else Color(0.08, 0.07, 0.06)
+	var khn_col: Color = Color(0.15, 0.12, 0.08) if selected == 0 else Color(0.08, 0.07, 0.06)
+	var klek_col: Color = Color(0.15, 0.12, 0.08) if selected == 1 else Color(0.08, 0.07, 0.06)
 	draw_rect(Rect2(40, 50, 260, 270), khn_col)
 	draw_rect(Rect2(340, 50, 260, 270), klek_col)
 
@@ -60,13 +60,14 @@ func _draw() -> void:
 	_draw_klek_figure(Vector2(470, 210))
 
 	# Lore text
-	var lore := KHN_LORE if selected == 0 else KLEK_LORE
-	var lore_x := 50 if selected == 0 else 350
+	var lore: String = KHN_LORE if selected == 0 else KLEK_LORE
+	var lore_x: int = 50 if selected == 0 else 350
 	var lines := lore.split("\n")
 	for i in range(lines.size()):
-		var line_col := Color(0.95, 0.90, 0.70) if i == 0 else (
+		var line_col: Color = Color(0.95, 0.90, 0.70) if i == 0 else (
 				Color(0.65, 0.58, 0.42) if i == 1 else Color(0.75, 0.70, 0.60))
-		var sc := 2 if i == 0 else 1
+				Color(0.65, 0.58, 0.42) if i == 1 else Color(0.75, 0.70, 0.60))
+		var sc: int = 2 if i == 0 else 1
 		_draw_text(lines[i], Vector2(lore_x, 330 + i * 14 - (sc - 1) * 3), line_col, sc)
 
 	# Arrows

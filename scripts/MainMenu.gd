@@ -34,7 +34,7 @@ func _draw() -> void:
 		draw_circle(Vector2(s.x, s.y), 0.8 + s.z * 0.6, Color(1, 1, 1, twinkle))
 
 	# Two silhouettes drifting in space
-	var sway := sin(title_pulse * 0.7) * 3.0
+	var sway: float = sin(title_pulse * 0.7) * 3.0
 	_draw_silhouette(Vector2(220, 180 + sway), true)
 	_draw_silhouette(Vector2(300, 185 - sway), false)
 
@@ -49,8 +49,8 @@ func _draw() -> void:
 	draw_line(Vector2(60, 135), Vector2(580, 135), Color(0.45, 0.38, 0.28, 0.6), 1.0)
 
 	# Menu options
-	var p1_col := Color(1.0, 0.9, 0.5) if selected_option == 0 else Color(0.5, 0.5, 0.4)
-	var p2_col := Color(1.0, 0.9, 0.5) if selected_option == 1 else Color(0.5, 0.5, 0.4)
+	var p1_col: Color = Color(1.0, 0.9, 0.5) if selected_option == 0 else Color(0.5, 0.5, 0.4)
+	var p2_col: Color = Color(1.0, 0.9, 0.5) if selected_option == 1 else Color(0.5, 0.5, 0.4)
 
 	if selected_option == 0:
 		draw_rect(Rect2(195, 150, 250, 18), Color(0.3, 0.25, 0.15, 0.5))
@@ -85,7 +85,7 @@ func _draw() -> void:
 		)
 
 func _draw_silhouette(pos: Vector2, facing_right: bool) -> void:
-	var fx := 1 if facing_right else -1
+	var fx: int = 1 if facing_right else -1
 	# Black polka-dot suit silhouette (tiny, in space)
 	draw_rect(Rect2(pos.x - 8, pos.y - 28, 16, 22), Color(0.06, 0.06, 0.08))
 	for dx in [-5, 0, 5, -3, 3]:

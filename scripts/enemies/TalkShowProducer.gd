@@ -66,7 +66,7 @@ func _update_bubbles(delta: float) -> void:
 		queue_redraw()
 
 func _draw_enemy() -> void:
-	var fx := 1 if facing_right else -1
+	var fx: int = 1 if facing_right else -1
 	var skin := Color(0.85, 0.72, 0.60)
 	var suit := enemy_color
 

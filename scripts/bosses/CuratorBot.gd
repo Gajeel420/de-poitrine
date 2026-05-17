@@ -105,8 +105,8 @@ func _update_projectiles(delta: float) -> void:
 
 func _draw_enemy() -> void:
 	var chrome := Color(0.75, 0.80, 0.85)
-	var accent := Color(0.3, 0.6, 1.0) if vulnerability_open else Color(0.9, 0.2, 0.1)
-	var fx := 1 if facing_right else -1
+	var accent: Color = Color(0.3, 0.6, 1.0) if vulnerability_open else Color(0.9, 0.2, 0.1)
+	var fx: int = 1 if facing_right else -1
 
 	# Chrome legs
 	draw_rect(Rect2(-12, -20, 9, 20), chrome)
@@ -124,7 +124,7 @@ func _draw_enemy() -> void:
 	for b in range(current_meter):
 		var beat_x := -9.0 + b * (18.0 / current_meter)
 		var is_current: bool = fmod(beat_clock / beat_period, current_meter) < b + 1 and fmod(beat_clock / beat_period, current_meter) >= b
-		var bar_col := accent if is_current else Color(0.3, 0.4, 0.5)
+		var bar_col: Color = accent if is_current else Color(0.3, 0.4, 0.5)
 		draw_rect(Rect2(beat_x, -46, 18.0 / current_meter - 1, 14), bar_col)
 
 	# Vulnerability indicator ring

@@ -56,7 +56,7 @@ func _do_attack() -> void:
 		target.take_damage(attack_damage, Vector2((1 if facing_right else -1) * 40.0, 0))
 
 func _draw_enemy() -> void:
-	var fx := 1 if facing_right else -1
+	var fx: int = 1 if facing_right else -1
 	var skin := Color(0.85, 0.72, 0.60)
 	var coat := enemy_color
 	var inner := Color(0.80, 0.75, 0.65)  # expensive shirt

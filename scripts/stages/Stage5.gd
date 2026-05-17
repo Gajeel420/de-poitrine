@@ -128,8 +128,8 @@ func _draw_background() -> void:
 	# Time signature indicator (subtle, bottom-right)
 	var ts_text_col := Color(0.9, 0.85, 0.6, 0.5)
 	for beat in range(current_time_sig):
-		var bx := 590 + beat * 8 if beat < 5 else 590 + (beat - 5) * 8
-		var by := 340 if beat < 5 else 350
+		var bx: int = 590 + beat * 8 if beat < 5 else 590 + (beat - 5) * 8
+		var by: int = 340 if beat < 5 else 350
 		var beat_on: bool = fmod(time_sig_timer, 0.5) < 0.25 and beat == int(fmod(time_sig_timer, float(current_time_sig)))
 		draw_rect(Rect2(bx, by, 5, 6), Color(0.9, 0.85, 0.6, 0.8 if beat_on else 0.3))
 
