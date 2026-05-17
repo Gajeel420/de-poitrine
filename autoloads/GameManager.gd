@@ -9,6 +9,9 @@ var num_players: int = 1
 var score: int = 0
 var high_score: int = 0
 
+# Character selection (0=KHN, 1=KLEK; in 2P mode both are used)
+var selected_character: int = 0
+
 # Unlockables
 var tlmep_mode_unlocked: bool = false
 var hotdog_vinyl_unlocked: bool = false
@@ -98,7 +101,11 @@ func start_game(players: int) -> void:
 	score = 0
 	stage4_took_damage = false
 	stage4_missed_sync = false
-	get_tree().change_scene_to_file("res://scenes/Game.tscn")
+	if players == 1:
+		get_tree().change_scene_to_file("res://scenes/CharacterSelect.tscn")
+	else:
+		selected_character = 0  # 2P: KHN=P1, KLEK=P2 (both active)
+		get_tree().change_scene_to_file("res://scenes/Game.tscn")
 
 func add_score(points: int) -> void:
 	score += points

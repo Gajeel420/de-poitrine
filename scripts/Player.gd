@@ -48,6 +48,10 @@ var anim_frame: int = 0
 var anim_timer: float = 0.0
 const ANIM_FPS: float = 8.0
 
+# --- Sprite sheet support ---
+var _sprite: AnimatedSprite2D = null  # set by _init_sprite() if sheet found
+var _use_sprite: bool = false
+
 # --- Polka dot positions (stable random, set in _ready) ---
 var dot_positions: Array[Vector2] = []
 
@@ -58,9 +62,25 @@ func _ready() -> void:
 	health = max_health
 	_generate_dots()
 	add_to_group("players")
-	# Collision: players on layer 1, mask enemies on layer 2
 	collision_layer = 1
-	collision_mask = 3  # world + enemy bodies
+	collision_mask = 3
+	_init_sprite()
+
+func _init_sprite() -> void:
+	pass  # Overridden by Khn/Klek to provide character-specific SpriteFrames
+
+func _setup_animated_sprite(sf: SpriteFrames) -> void:
+	_sprite = AnimatedSprite2D.new()
+	_sprite.sprite_frames = sf
+	_sprite.position = Vector2(0, -32)  # visual offset: feet at node origin
+	_sprite.flip_h = not facing_right
+	# Apply chroma-key shader
+	var shader_mat := ShaderMaterial.new()
+	shader_mat.shader = load("res://shaders/chroma_key.gdshader")
+	_sprite.material = shader_mat
+	add_child(_sprite)
+	_sprite.play("idle")
+	_use_sprite = true
 
 func _generate_dots() -> void:
 	var rng := RandomNumberGenerator.new()
@@ -190,6 +210,21 @@ func _update_animation(delta: float) -> void:
 	if anim_timer >= 1.0 / ANIM_FPS:
 		anim_timer = 0.0
 		anim_frame = (anim_frame + 1) % 8
+	if _use_sprite and _sprite:
+		_sprite.flip_h = not facing_right
+		_sprite.position.y = -32 + jump_offset
+		var anim_name := _state_to_anim()
+		if _sprite.animation != anim_name:
+			_sprite.play(anim_name)
+
+func _state_to_anim() -> String:
+	match state:
+		State.WALK:   return "walk"
+		State.ATTACK1, State.ATTACK2, State.ATTACK3, State.KICK: return "attack"
+		State.SPECIAL: return "special"
+		State.HURT:   return "hurt"
+		State.DEAD:   return "dead"
+		_:            return "idle"
 
 # ──────────────────────────────────────────────
 #  COMBAT
@@ -275,9 +310,12 @@ func _die() -> void:
 func _draw() -> void:
 	var jy := jump_offset
 	var flash := (invincible_timer > 0.0) and (int(Time.get_ticks_msec() / 80) % 2 == 0)
+	if _use_sprite:
+		_sprite.visible = not flash
+		_draw_shadow()
+		return  # sprite handles the character visuals
 	if flash:
 		return
-
 	_draw_shadow()
 	_draw_character(jy)
 

@@ -12,11 +12,25 @@ const ODD_METER_DURATION: float = 4.5
 func _ready() -> void:
 	player_id = 2
 	max_health = 110
-	move_speed = 160.0    # faster than KHN
-	attack_damage = 10    # rapid drumstick hits
-	kick_damage = 18      # bass drum kick
+	move_speed = 160.0
+	attack_damage = 10
+	kick_damage = 18
 	special_damage = 30
 	super._ready()
+
+func _init_sprite() -> void:
+	if not ResourceLoader.exists(SpriteSheetConfig.SHEET_PATH):
+		return
+	var tex := load(SpriteSheetConfig.SHEET_PATH) as Texture2D
+	if not tex:
+		return
+	var sf := SpriteSheetConfig.build_sprite_frames(
+		tex,
+		SpriteSheetConfig.klek_idle_frames(),
+		SpriteSheetConfig.klek_walk_frames(),
+		SpriteSheetConfig.klek_attack_frames()
+	)
+	_setup_animated_sprite(sf)
 
 # ──────────────────────────────────────────────
 #  SPECIAL: ODD METER

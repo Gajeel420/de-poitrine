@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bxstageintro"]
+
+[ext_resource type="Script" path="res://scripts/StageIntro.gd" id="1_si"]
+
+[node name="StageIntro" type="Control"]
+script = ExtResource("1_si")

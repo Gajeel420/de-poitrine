@@ -10,10 +10,24 @@ func _ready() -> void:
 	player_id = 1
 	max_health = 130
 	move_speed = 130.0
-	attack_damage = 14    # guitar reach hits hard
+	attack_damage = 14
 	kick_damage = 12
 	special_damage = 40
 	super._ready()
+
+func _init_sprite() -> void:
+	if not ResourceLoader.exists(SpriteSheetConfig.SHEET_PATH):
+		return
+	var tex := load(SpriteSheetConfig.SHEET_PATH) as Texture2D
+	if not tex:
+		return
+	var sf := SpriteSheetConfig.build_sprite_frames(
+		tex,
+		SpriteSheetConfig.khn_idle_frames(),
+		SpriteSheetConfig.khn_walk_frames(),
+		SpriteSheetConfig.khn_attack_frames()
+	)
+	_setup_animated_sprite(sf)
 
 # ──────────────────────────────────────────────
 #  SPECIAL: LOOP STATION
