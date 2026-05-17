@@ -155,7 +155,7 @@ func _draw_enemy() -> void:
 			1:  # restored — yield sign (warm orange)
 				sign_col = Color(0.95, 0.65, 0.1)
 			2:  # highlighted target
-				var pulse = abs(sin(Time.get_ticks_msec() * 0.005)) * 0.4 + 0.6
+				var pulse: float = abs(sin(Time.get_ticks_msec() * 0.005)) * 0.4 + 0.6
 				sign_col = Color(1.0, 0.9, 0.1, pulse)
 
 		var sz := 12.0

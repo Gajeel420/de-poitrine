@@ -144,7 +144,7 @@ func _draw_cymbals() -> void:
 func _draw_odd_meter_aura(jy: float) -> void:
 	if not odd_meter_active:
 		return
-	var pulse = abs(sin(Time.get_ticks_msec() * 0.006)) * 0.6 + 0.2
+	var pulse: float = abs(sin(Time.get_ticks_msec() * 0.006)) * 0.6 + 0.2
 	var aura_col := Color(1.0, 0.4, 0.0, pulse)
 	draw_arc(Vector2(0, jy - 24), 28.0, 0, TAU, 32, aura_col, 2.0)
 	# Wavy lines indicating time distortion

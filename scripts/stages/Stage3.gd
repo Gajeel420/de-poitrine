@@ -60,14 +60,14 @@ func _draw_background() -> void:
 
 	# Crowd silhouettes (festival audience)
 	for i in range(30):
-		var cx = fmod(t * 0.3 + i * 22, 700) - 22
+		var cx: float = fmod(t * 0.3 + i * 22, 700) - 22
 		var ch := 16 + i % 5 * 4
 		draw_rect(Rect2(cx, 185 - ch, 8, ch), Color(0.06, 0.04, 0.08))
 		draw_circle(Vector2(cx + 4, 186 - ch), 5, Color(0.06, 0.04, 0.08))
 
 	# Festival lights / lanterns
 	for i in range(10):
-		var lx = fmod(t * 0.5 + i * 66, 780) - 66
+		var lx: float = fmod(t * 0.5 + i * 66, 780) - 66
 		var lh := 30 + i % 3 * 20
 		draw_line(Vector2(lx, 0), Vector2(lx, lh), Color(0.25, 0.20, 0.14), 1.5)
 		var light_col = [Color(0.9, 0.3, 0.3), Color(0.3, 0.7, 0.9), Color(0.9, 0.8, 0.2)][i % 3]
@@ -85,6 +85,6 @@ func _draw_background() -> void:
 
 	# Confetti dots
 	for i in range(20):
-		var cfx = fmod(t * (1.5 + i * 0.1) + i * 32, 680) - 20
+		var cfx: float = fmod(t * (1.5 + i * 0.1) + i * 32, 680) - 20
 		var cfy := 100 + i * 6 % 120
 		draw_circle(Vector2(cfx, cfy), 2, Color(float(i % 3 == 0), float(i % 3 == 1), float(i % 3 == 2), 0.6))

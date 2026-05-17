@@ -65,7 +65,7 @@ func _draw() -> void:
 	_draw_big_text("P2: ARROWS+NUMPAD4-7", Vector2(60, 210), Color(0.4, 0.4, 0.35), 1)
 
 	# Press enter
-	var blink = abs(sin(title_pulse * 2.5)) > 0.5
+	var blink: bool = abs(sin(title_pulse * 2.5)) > 0.5
 	if blink:
 		_draw_big_text("PRESS ENTER TO START", Vector2(190, 238), Color(0.9, 0.85, 0.65), 2)
 

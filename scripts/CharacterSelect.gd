@@ -40,7 +40,7 @@ func _draw() -> void:
 	draw_rect(Rect2(340, 50, 260, 270), klek_col)
 
 	# Selection highlight
-	var glow = abs(sin(pulse)) * 0.4 + 0.2
+	var glow: float = abs(sin(pulse)) * 0.4 + 0.2
 	if selected == 0:
 		draw_rect(Rect2(40, 50, 260, 270), Color(0.8, 0.65, 0.2, glow * 0.3))
 		draw_rect(Rect2(40, 50, 260, 1), Color(0.8, 0.65, 0.2, glow))
@@ -74,7 +74,7 @@ func _draw() -> void:
 	_draw_text("KLEK >", Vector2(450, 185), Color(0.7, 0.6, 0.4, 0.8), 2)
 
 	# Confirm hint
-	var blink = abs(sin(pulse * 3.0)) > 0.5
+	var blink: bool = abs(sin(pulse * 3.0)) > 0.5
 	if blink:
 		_draw_text("PRESS J TO CONFIRM", Vector2(210, 345), Color(0.85, 0.78, 0.55), 1)
 

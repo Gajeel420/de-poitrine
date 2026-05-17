@@ -102,7 +102,7 @@ func _draw_kexp_scene() -> void:
 	_draw_text("KEXP", Vector2(90, 50), Color(0.95, 0.20, 0.20, 0.8), 3)
 
 	# Transmission text
-	var tx_alpha = min((timer - 12.0) / 2.0, 1.0) if timer > 12.0 else 0.0
+	var tx_alpha: float = min((timer - 12.0) / 2.0, 1.0) if timer > 12.0 else 0.0
 	if tx_alpha > 0.0:
 		for s in stars:
 			var tw := (sin(timer * 2.0 + s.z * 6.28) * 0.4 + 0.6) * s.z

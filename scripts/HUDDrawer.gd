@@ -60,7 +60,7 @@ func _draw_score() -> void:
 func _draw_stage_name() -> void:
 	if hud.stage_name_timer <= 0.0:
 		return
-	var alpha = min(hud.stage_name_timer, 1.0)
+	var alpha: float = min(hud.stage_name_timer, 1.0)
 	var stage_name: String = GameManager.STAGE_NAMES[hud.stage_number]
 	_draw_pixel_text(stage_name, Vector2(240, 26), Color(0.9, 0.85, 0.6, alpha))
 

@@ -27,7 +27,7 @@ func _physics_process(delta: float) -> void:
 
 	# Override state based on sync phase
 	if state not in [State.DEAD, State.HURT, State.STUNNED]:
-		var cycle = fmod(HollowExecutive.sync_clock + sync_offset, 3.5)
+		var cycle: float = fmod(HollowExecutive.sync_clock + sync_offset, 3.5)
 		if cycle < 2.0:
 			if state != State.APPROACH:
 				state = State.APPROACH

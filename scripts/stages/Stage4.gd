@@ -69,7 +69,7 @@ func _draw_background() -> void:
 
 	# Studio grid floor (TV studio marks)
 	for i in range(10):
-		var lx = fmod(t * 0.3 + i * 65, 720) - 65
+		var lx: float = fmod(t * 0.3 + i * 65, 720) - 65
 		draw_line(Vector2(lx, 0), Vector2(lx, 220), Color(0.12, 0.15, 0.28, 0.4), 1.0)
 	for j in range(5):
 		draw_line(Vector2(0, j * 44), Vector2(640, j * 44), Color(0.12, 0.15, 0.28, 0.4), 1.0)
@@ -87,7 +87,7 @@ func _draw_background() -> void:
 
 	# Studio cameras on dollies
 	for i in range(3):
-		var cam_x = fmod(t * 0.6 + i * 200, 840) - 100
+		var cam_x: float = fmod(t * 0.6 + i * 200, 840) - 100
 		draw_rect(Rect2(cam_x, 165, 20, 14), Color(0.15, 0.15, 0.18))
 		draw_rect(Rect2(cam_x + 20, 168, 12, 8), Color(0.12, 0.12, 0.14))
 		draw_circle(Vector2(cam_x + 32, 172), 4, Color(0.08, 0.08, 0.10))
@@ -97,7 +97,7 @@ func _draw_background() -> void:
 
 	# Studio lights overhead (grid)
 	for i in range(8):
-		var slx = fmod(t * 0.4 + i * 82, 780) - 78
+		var slx: float = fmod(t * 0.4 + i * 82, 780) - 78
 		draw_rect(Rect2(slx, 0, 10, 16), Color(0.22, 0.22, 0.26))
 		draw_rect(Rect2(slx - 4, 14, 18, 6), Color(0.35, 0.35, 0.40))
 		# Light beam
@@ -111,7 +111,7 @@ func _draw_background() -> void:
 	draw_rect(Rect2(0, 12, 640, 2), Color(0.2, 0.4, 0.9))
 	# Scrolling ticker text (simulated)
 	for i in range(8):
-		var ticker_x = fmod(t * 2.5 + i * 90, 800) - 90
+		var ticker_x: float = fmod(t * 2.5 + i * 90, 800) - 90
 		draw_rect(Rect2(ticker_x, 2, 70, 8), Color(0.15, 0.15, 0.25, 0.8))
 
 	# TLMEP mode banner (if unlocked)

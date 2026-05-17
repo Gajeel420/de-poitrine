@@ -132,13 +132,13 @@ func _draw_enemy() -> void:
 	var ticker_w := 80.0
 	draw_rect(Rect2(-40, -12, ticker_w, 8), Color(0.1, 0.1, 0.2))
 	# Scrolling text approximation (lines of varying width)
-	var scroll_x = fmod(ratings_text_scroll, 100) - 50
+	var scroll_x: float = fmod(ratings_text_scroll, 100) - 50
 	draw_rect(Rect2(-36 + scroll_x, -11, 40 * ratings_hp_display, 3),
 		Color(0.1, 0.9, 0.1) if ratings_hp_display > 0.3 else Color(0.9, 0.2, 0.1))
 
 	# Shield
 	if shield_active:
-		var shield_alpha = min(shield_timer / 2.0, 1.0) * 0.5
+		var shield_alpha: float = min(shield_timer / 2.0, 1.0) * 0.5
 		draw_arc(Vector2(0, -32), 40.0, 0, TAU, 32, Color(0.4, 0.6, 1.0, shield_alpha), 4.0)
 
 	# Camera drones
