@@ -48,6 +48,10 @@ var anim_frame: int = 0
 var anim_timer: float = 0.0
 const ANIM_FPS: float = 8.0
 
+# --- Sprite sheet support ---
+var _sprite: AnimatedSprite2D = null  # set by _init_sprite() if sheet found
+var _use_sprite: bool = false
+
 # --- Polka dot positions (stable random, set in _ready) ---
 var dot_positions: Array[Vector2] = []
 
@@ -58,9 +62,25 @@ func _ready() -> void:
 	health = max_health
 	_generate_dots()
 	add_to_group("players")
-	# Collision: players on layer 1, mask enemies on layer 2
 	collision_layer = 1
-	collision_mask = 3  # world + enemy bodies
+	collision_mask = 3
+	_init_sprite()
+
+func _init_sprite() -> void:
+	pass  # Overridden by Khn/Klek to provide character-specific SpriteFrames
+
+func _setup_animated_sprite(sf: SpriteFrames) -> void:
+	_sprite = AnimatedSprite2D.new()
+	_sprite.sprite_frames = sf
+	_sprite.position = Vector2(0, -32)  # visual offset: feet at node origin
+	_sprite.flip_h = not facing_right
+	# Apply chroma-key shader
+	var shader_mat := ShaderMaterial.new()
+	shader_mat.shader = load("res://shaders/chroma_key.gdshader")
+	_sprite.material = shader_mat
+	add_child(_sprite)
+	_sprite.play("idle")
+	_use_sprite = true
 
 func _generate_dots() -> void:
 	var rng := RandomNumberGenerator.new()
@@ -190,19 +210,34 @@ func _update_animation(delta: float) -> void:
 	if anim_timer >= 1.0 / ANIM_FPS:
 		anim_timer = 0.0
 		anim_frame = (anim_frame + 1) % 8
+	if _use_sprite and _sprite:
+		_sprite.flip_h = not facing_right
+		_sprite.position.y = -32 + jump_offset
+		var anim_name := _state_to_anim()
+		if _sprite.animation != anim_name:
+			_sprite.play(anim_name)
+
+func _state_to_anim() -> String:
+	match state:
+		State.WALK:   return "walk"
+		State.ATTACK1, State.ATTACK2, State.ATTACK3, State.KICK: return "attack"
+		State.SPECIAL: return "special"
+		State.HURT:   return "hurt"
+		State.DEAD:   return "dead"
+		_:            return "idle"
 
 # ──────────────────────────────────────────────
 #  COMBAT
 # ──────────────────────────────────────────────
 
 func _get_attack_hitbox() -> Rect2:
-	var reach := 36.0 if state == State.ATTACK3 else 28.0
-	var ox := reach if facing_right else -reach - 20.0
+	var reach: float = 36.0 if state == State.ATTACK3 else 28.0
+	var ox: float = reach if facing_right else -reach - 20.0
 	var oy := jump_offset - 30.0
 	return Rect2(position.x + ox, position.y + oy, 20.0, 24.0)
 
 func _get_kick_hitbox() -> Rect2:
-	var ox := 30.0 if facing_right else -50.0
+	var ox: float = 30.0 if facing_right else -50.0
 	return Rect2(position.x + ox, position.y + jump_offset - 22.0, 22.0, 20.0)
 
 func _check_attack_hits() -> void:
@@ -222,7 +257,7 @@ func _check_attack_hits() -> void:
 			continue
 		var ep: Vector2 = enemy.global_position
 		if box.has_point(ep):
-			var knockback := Vector2((1 if facing_right else -1) * 60.0, 0)
+			var knockback: Vector2 = Vector2((1 if facing_right else -1) * 60.0, 0)
 			enemy.take_damage(dmg, knockback)
 			already_hit.append(enemy)
 			_gain_special(8.0)
@@ -232,10 +267,10 @@ func _check_attack_hits() -> void:
 
 func _check_coop_bonus(enemy: Node, dmg: int) -> void:
 	# If the other player also attacked this frame → double microtonal damage
-	var other_id := 2 if player_id == 1 else 1
+	var other_id: int = 2 if player_id == 1 else 1
 	for p in get_tree().get_nodes_in_group("players"):
 		if p.player_id == other_id:
-			var frame_diff := abs(Engine.get_process_frames() - p.last_attack_frame)
+			var frame_diff: int = int(abs(Engine.get_process_frames() - p.last_attack_frame))
 			if frame_diff <= 1:
 				enemy.take_damage(dmg, Vector2.ZERO)  # bonus hit
 				GameManager.trigger_screen_shake(4.0, 0.12)
@@ -275,15 +310,18 @@ func _die() -> void:
 func _draw() -> void:
 	var jy := jump_offset
 	var flash := (invincible_timer > 0.0) and (int(Time.get_ticks_msec() / 80) % 2 == 0)
+	if _use_sprite:
+		_sprite.visible = not flash
+		_draw_shadow()
+		return  # sprite handles the character visuals
 	if flash:
 		return
-
 	_draw_shadow()
 	_draw_character(jy)
 
 func _draw_shadow() -> void:
 	var alpha := clamp(1.0 + jump_offset / 80.0, 0.1, 0.5)
-	draw_ellipse_arc(Vector2(0, 0), Vector2(11, 4), 0, TAU, Color(0, 0, 0, alpha))
+	_draw_shadow_ellipse(Vector2(0, 0), Vector2(11, 4), 0, TAU, Color(0, 0, 0, alpha))
 
 func _draw_character(jy: float) -> void:
 	# Base implementation: polka-dot suit humanoid
@@ -292,10 +330,10 @@ func _draw_character(jy: float) -> void:
 	var shoe := Color(0.25, 0.18, 0.10)
 	var dot  := Color(1.0, 1.0, 1.0)
 
-	var fx := 1 if facing_right else -1
+	var fx: int = 1 if facing_right else -1
 
 	# Legs (animated walk cycle)
-	var swing := sin(anim_frame * TAU / 8.0) * 4.0
+	var swing: float = sin(anim_frame * TAU / 8.0) * 4.0
 	if state == State.WALK:
 		draw_rect(Rect2(fx * -9 - 7, jy - 16, 7, 16), suit)
 		draw_rect(Rect2(fx * 2, jy - 16 + swing, 7, 16), suit)
@@ -340,7 +378,7 @@ func _draw_arms(jy: float, fx: int) -> void:
 	# Right arm (attack direction)
 	draw_line(Vector2(10, arm_y), Vector2(18 + arm_swing * fx, arm_y + 4), Color(0.08, 0.08, 0.08), 4)
 
-func draw_ellipse_arc(center: Vector2, radii: Vector2, angle_from: float,
+func _draw_shadow_ellipse(center: Vector2, radii: Vector2, angle_from: float,
 		angle_to: float, color: Color) -> void:
 	var nb_points := 24
 	var points_arc := PackedVector2Array()

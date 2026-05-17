@@ -196,7 +196,7 @@ func _draw_enemy() -> void:
 	var suit := enemy_color
 	var skin := Color(0.85, 0.72, 0.60)
 	var shoe := Color(0.15, 0.12, 0.08)
-	var fx := 1 if facing_right else -1
+	var fx: int = 1 if facing_right else -1
 
 	# Legs
 	draw_rect(Rect2(-8, -14, 6, 14), suit)

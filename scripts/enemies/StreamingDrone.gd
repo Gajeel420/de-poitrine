@@ -40,8 +40,8 @@ func _state_approach(delta: float) -> void:
 	moped_wobble += delta * 8.0
 
 func _draw_enemy() -> void:
-	var fx := 1 if facing_right else -1
-	var wobble := sin(moped_wobble) * 2.0
+	var fx: int = 1 if facing_right else -1
+	var wobble: float = sin(moped_wobble) * 2.0
 
 	# Moped body
 	var moped_col := Color(0.08, 0.08, 0.08)

@@ -77,7 +77,7 @@ func _fire_synthetic_pulse() -> void:
 	var target_player: Node2D = null
 	var nearest_dist := INF
 	for p in get_tree().get_nodes_in_group("players"):
-		var d := global_position.distance_to(p.global_position)
+		var d: float = global_position.distance_to(p.global_position)
 		if d < nearest_dist:
 			nearest_dist = d
 			target_player = p
@@ -141,7 +141,7 @@ func _algorithm_rewritten() -> void:
 	_die()
 
 func _draw_enemy() -> void:
-	var fx := 1 if facing_right else -1
+	var fx: int = 1 if facing_right else -1
 	var skin := Color(0.82, 0.70, 0.58)
 	var suit := suit_quality
 	var energy_glow := Color(0.7, 0.4, 1.0, absorbed_energy * 0.6)
@@ -196,8 +196,8 @@ func _draw_enemy() -> void:
 
 	# Synthetic energy pulses
 	for pulse in synthetic_pulses:
-		var lp := to_local(pulse["pos"])
-		var pc := Color(0.7 + pulse["energy"] * 0.3, 0.3 - pulse["energy"] * 0.1, 1.0, 0.85)
+		var lp = to_local(pulse["pos"])
+		var pc = Color(0.7 + pulse["energy"] * 0.3, 0.3 - pulse["energy"] * 0.1, 1.0, 0.85)
 		draw_circle(lp, 6.0 + pulse["energy"] * 4.0, pc)
 		draw_arc(lp, 9.0, 0, TAU, 12, Color(1.0, 0.6, 1.0, 0.5), 1.5)
 

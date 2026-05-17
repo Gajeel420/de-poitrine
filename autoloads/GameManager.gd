@@ -9,6 +9,9 @@ var num_players: int = 1
 var score: int = 0
 var high_score: int = 0
 
+# Character selection (0=KHN, 1=KLEK; in 2P mode both are used)
+var selected_character: int = 0
+
 # Unlockables
 var tlmep_mode_unlocked: bool = false
 var hotdog_vinyl_unlocked: bool = false
@@ -21,6 +24,12 @@ var stage4_missed_sync: bool = false
 # Screen shake (polled by Game scene camera)
 var shake_remaining: float = 0.0
 var shake_intensity: float = 0.0
+
+# --- Music ---
+var _music_player: AudioStreamPlayer = null
+var _current_music_path: String = ""
+const MUSIC_GRAVITY_BOUND := "res://assets/audio/gravity_bound.mp3"
+const MUSIC_FINAL_PANIC   := "res://assets/audio/final_level_panic.mp3"
 
 # Stage scene paths
 const STAGE_PATHS: Array[String] = [
@@ -55,6 +64,10 @@ const STAGE_LOCATIONS: Array[String] = [
 
 func _ready() -> void:
 	_setup_input_actions()
+	_music_player = AudioStreamPlayer.new()
+	_music_player.bus = "Master"
+	_music_player.volume_db = -6.0
+	add_child(_music_player)
 
 func _process(delta: float) -> void:
 	if shake_remaining > 0.0:
@@ -98,7 +111,11 @@ func start_game(players: int) -> void:
 	score = 0
 	stage4_took_damage = false
 	stage4_missed_sync = false
-	get_tree().change_scene_to_file("res://scenes/Game.tscn")
+	if players == 1:
+		get_tree().change_scene_to_file("res://scenes/CharacterSelect.tscn")
+	else:
+		selected_character = 0  # 2P: KHN=P1, KLEK=P2 (both active)
+		get_tree().change_scene_to_file("res://scenes/Game.tscn")
 
 func add_score(points: int) -> void:
 	score += points
@@ -117,6 +134,10 @@ func get_shake_offset() -> Vector2:
 		randf_range(-shake_intensity, shake_intensity)
 	)
 
+func check_tlmep_unlock() -> void:
+	if not stage4_took_damage and not stage4_missed_sync:
+		tlmep_mode_unlocked = true
+
 func advance_stage() -> void:
 	if current_stage == 4:
 		if not stage4_took_damage and not stage4_missed_sync:
@@ -126,6 +147,28 @@ func advance_stage() -> void:
 		get_tree().change_scene_to_file("res://scenes/Ending.tscn")
 	else:
 		stage_changed.emit(current_stage)
+
+func play_music(path: String, loop: bool = true) -> void:
+	if path == _current_music_path and _music_player.playing:
+		return
+	if not ResourceLoader.exists(path):
+		return
+	var stream := load(path)
+	if stream is AudioStreamMP3:
+		stream.loop = loop
+	_music_player.stream = stream
+	_music_player.play()
+	_current_music_path = path
+
+func stop_music() -> void:
+	_music_player.stop()
+	_current_music_path = ""
+
+func play_music_for_stage(stage_num: int) -> void:
+	if stage_num >= 6:
+		play_music(MUSIC_FINAL_PANIC)
+	else:
+		play_music(MUSIC_GRAVITY_BOUND)
 
 func game_over() -> void:
 	get_tree().change_scene_to_file("res://scenes/GameOver.tscn")

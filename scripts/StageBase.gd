@@ -45,27 +45,30 @@ func _ready() -> void:
 	call_deferred("_show_intro")
 
 func _setup_players() -> void:
-	# Spawn KHN
-	var khn_script := load("res://scripts/Khn.gd")
-	var khn := CharacterBody2D.new()
-	khn.set_script(khn_script)
-	khn.position = Vector2(80, 270)
-	add_child(khn)
-	players.append(khn)
-	khn.died.connect(_on_player_died)
-	khn.health_changed.connect(func(hp, mx): if hud: hud.update_player_hp(1, hp, mx))
-	khn.special_changed.connect(func(v, mx): if hud: hud.update_player_special(1, v, mx))
-
 	if GameManager.num_players >= 2:
-		var klek_script := load("res://scripts/Klek.gd")
-		var klek := CharacterBody2D.new()
-		klek.set_script(klek_script)
-		klek.position = Vector2(120, 280)
-		add_child(klek)
-		players.append(klek)
-		klek.died.connect(_on_player_died)
-		klek.health_changed.connect(func(hp, mx): if hud: hud.update_player_hp(2, hp, mx))
-		klek.special_changed.connect(func(v, mx): if hud: hud.update_player_special(2, v, mx))
+		# 2P: KHN=P1, KLEK=P2
+		var p1 := _spawn_character(load("res://scripts/Khn.gd"), Vector2(80, 270), 1)
+		var p2 := _spawn_character(load("res://scripts/Klek.gd"), Vector2(120, 280), 2)
+		players = [p1, p2]
+	else:
+		# 1P: use whichever character was selected
+		var script: Script
+		if GameManager.selected_character == 1:
+			script = load("res://scripts/Klek.gd")
+		else:
+			script = load("res://scripts/Khn.gd")
+		var p1 := _spawn_character(script, Vector2(100, 270), 1)
+		players = [p1]
+
+func _spawn_character(script: Script, pos: Vector2, pid: int) -> Node2D:
+	var body := CharacterBody2D.new()
+	body.set_script(script)
+	body.position = pos
+	add_child(body)
+	body.died.connect(_on_player_died)
+	body.health_changed.connect(func(hp, mx): if hud: hud.update_player_hp(pid, hp, mx))
+	body.special_changed.connect(func(v, mx): if hud: hud.update_player_special(pid, v, mx))
+	return body
 
 func _setup_hud() -> void:
 	var hud_script := load("res://scripts/HUD.gd")

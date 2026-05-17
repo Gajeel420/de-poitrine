@@ -61,13 +61,13 @@ func _draw_background() -> void:
 	# Stars
 	var star_seed := 42
 	for i in range(40):
-		var sx := fmod(float(i * 73 + star_seed) * 0.137 * 640 + t * 0.1, 700) - 30
+		var sx: float = fmod(float(i * 73 + star_seed) * 0.137 * 640 + t * 0.1, 700) - 30
 		var sy := float(i * 31 % 180) + 10
 		draw_circle(Vector2(sx, sy), 0.8 + float(i % 3) * 0.4, Color(1.0, 1.0, 1.0, 0.5 + float(i % 5) * 0.1))
 
 	# Distant treeline silhouette (Saguenay boreal forest)
 	for i in range(25):
-		var tx := fmod(t * 0.2 + i * 28, 720) - 28
+		var tx: float = fmod(t * 0.2 + i * 28, 720) - 28
 		var th := 30 + (i % 4) * 12
 		draw_colored_polygon(
 			PackedVector2Array([Vector2(tx, 190), Vector2(tx + 14, 190 - th), Vector2(tx + 28, 190)]),
@@ -79,7 +79,7 @@ func _draw_background() -> void:
 
 	# Yellow center dividing line (dashed)
 	for i in range(12):
-		var lx := fmod(t * 1.5 + i * 60, 780) - 60
+		var lx: float = fmod(t * 1.5 + i * 60, 780) - 60
 		draw_rect(Rect2(lx, 212, 38, 4), Color(0.9, 0.8, 0.1))
 
 	# Road shoulder lines
@@ -88,12 +88,12 @@ func _draw_background() -> void:
 
 	# Speed blur streaks
 	for i in range(8):
-		var bx := fmod(t * 3.0 + i * 82, 800) - 80
+		var bx: float = fmod(t * 3.0 + i * 82, 800) - 80
 		var by := 200 + i * 4
 		draw_line(Vector2(bx, by), Vector2(bx - 40, by), Color(0.8, 0.9, 1.0, 0.12), 1.5)
 
 	# Saguenay valley cliff in distance
 	draw_rect(Rect2(0, 145, 640, 50), Color(0.10, 0.12, 0.15))
 	for i in range(6):
-		var cx := fmod(t * 0.15 + i * 110, 740) - 50
+		var cx: float = fmod(t * 0.15 + i * 110, 740) - 50
 		draw_rect(Rect2(cx, 100 + i * 5, 90, 55), Color(0.08, 0.10, 0.12))

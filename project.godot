@@ -22,6 +22,15 @@ window/size/resizable=true
 window/stretch/mode="canvas_items"
 window/stretch/aspect="keep"
 
+[debug]
+
+gdscript/warnings/treat_warnings_as_errors=false
+gdscript/warnings/untyped_declaration=0
+gdscript/warnings/inferred_declaration=0
+gdscript/warnings/unsafe_method_access=0
+gdscript/warnings/unsafe_property_access=0
+gdscript/warnings/unsafe_call_argument=0
+
 [rendering]
 
 renderer/rendering_method="gl_compatibility"

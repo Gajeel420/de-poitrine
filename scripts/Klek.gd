@@ -12,11 +12,25 @@ const ODD_METER_DURATION: float = 4.5
 func _ready() -> void:
 	player_id = 2
 	max_health = 110
-	move_speed = 160.0    # faster than KHN
-	attack_damage = 10    # rapid drumstick hits
-	kick_damage = 18      # bass drum kick
+	move_speed = 160.0
+	attack_damage = 10
+	kick_damage = 18
 	special_damage = 30
 	super._ready()
+
+func _init_sprite() -> void:
+	if not ResourceLoader.exists(SpriteSheetConfig.SHEET_PATH):
+		return
+	var tex := load(SpriteSheetConfig.SHEET_PATH) as Texture2D
+	if not tex:
+		return
+	var sf := SpriteSheetConfig.build_sprite_frames(
+		tex,
+		SpriteSheetConfig.klek_idle_frames(),
+		SpriteSheetConfig.klek_walk_frames(),
+		SpriteSheetConfig.klek_attack_frames()
+	)
+	_setup_animated_sprite(sf)
 
 # ──────────────────────────────────────────────
 #  SPECIAL: ODD METER
@@ -100,7 +114,7 @@ func _draw_character(jy: float) -> void:
 	_draw_odd_meter_aura(jy)
 
 func _draw_drumsticks(jy: float) -> void:
-	var fx := 1 if facing_right else -1
+	var fx: int = 1 if facing_right else -1
 	var attack_swing := 0.0
 	if state in [State.ATTACK1, State.ATTACK2, State.ATTACK3]:
 		attack_swing = PI * 0.7 * (1.0 - max(attack_timer, 0.0) / attack_duration)
@@ -122,7 +136,7 @@ func _draw_drumsticks(jy: float) -> void:
 
 func _draw_cymbals() -> void:
 	for c in cymbal_projectiles:
-		var local_pos := to_local(c["pos"])
+		var local_pos = to_local(c["pos"])
 		# Cymbal as golden ellipse
 		draw_arc(local_pos, 8.0, 0, TAU, 16, Color(0.9, 0.75, 0.1), 2.5)
 		draw_arc(local_pos, 5.0, 0, TAU, 12, Color(1.0, 0.9, 0.3, 0.5), 1.5)
@@ -130,7 +144,7 @@ func _draw_cymbals() -> void:
 func _draw_odd_meter_aura(jy: float) -> void:
 	if not odd_meter_active:
 		return
-	var pulse := abs(sin(Time.get_ticks_msec() * 0.006)) * 0.6 + 0.2
+	var pulse: float = abs(sin(Time.get_ticks_msec() * 0.006)) * 0.6 + 0.2
 	var aura_col := Color(1.0, 0.4, 0.0, pulse)
 	draw_arc(Vector2(0, jy - 24), 28.0, 0, TAU, 32, aura_col, 2.0)
 	# Wavy lines indicating time distortion

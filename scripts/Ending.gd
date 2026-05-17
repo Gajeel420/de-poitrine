@@ -87,7 +87,7 @@ func _draw_kexp_scene() -> void:
 	for i in range(22):
 		var cx := 30 + i * 28
 		var ch := 30 + i % 5 * 8
-		var sway := sin(crowd_sway + i * 0.4) * 3.0
+		var sway: float = sin(crowd_sway + i * 0.4) * 3.0
 		draw_rect(Rect2(cx, 240 - ch + sway, 10, ch), Color(0.05, 0.03, 0.04))
 		draw_circle(Vector2(cx + 5, 241 - ch + sway), 6, Color(0.05, 0.03, 0.04))
 
@@ -102,7 +102,7 @@ func _draw_kexp_scene() -> void:
 	_draw_text("KEXP", Vector2(90, 50), Color(0.95, 0.20, 0.20, 0.8), 3)
 
 	# Transmission text
-	var tx_alpha := min((timer - 12.0) / 2.0, 1.0) if timer > 12.0 else 0.0
+	var tx_alpha: float = min((timer - 12.0) / 2.0, 1.0) if timer > 12.0 else 0.0
 	if tx_alpha > 0.0:
 		for s in stars:
 			var tw := (sin(timer * 2.0 + s.z * 6.28) * 0.4 + 0.6) * s.z

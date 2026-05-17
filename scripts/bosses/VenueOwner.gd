@@ -78,7 +78,7 @@ func _update_ropes(delta: float) -> void:
 			expired.append(i)
 			continue
 		if not r["hit"]:
-			var tip := r["start"] + r["dir"] * r["length"]
+			var tip = r["start"] + r["dir"] * r["length"]
 			for p in get_tree().get_nodes_in_group("players"):
 				if tip.distance_to(p.global_position) < 22.0:
 					p.take_damage(attack_damage - 5, r["dir"] * 50.0)
@@ -108,7 +108,7 @@ func _stomp() -> void:
 			p.take_damage(15, Vector2.ZERO)
 
 func _draw_enemy() -> void:
-	var fx := 1 if facing_right else -1
+	var fx: int = 1 if facing_right else -1
 	# Giant — 1.5x normal enemy size
 	var face_col := Color(0.75 + face_redness * 0.2, 0.35 - face_redness * 0.15, 0.25 - face_redness * 0.1)
 	var suit := Color(0.12, 0.12, 0.16)  # bouncer black
@@ -144,8 +144,8 @@ func _draw_enemy() -> void:
 
 	# Velvet rope whips
 	for r in ropes:
-		var local_start := to_local(r["start"])
-		var end := local_start + r["dir"] * r["length"]
+		var local_start = to_local(r["start"])
+		var end = local_start + r["dir"] * r["length"]
 		draw_line(local_start, end, Color(0.6, 0.1, 0.4), 3.5)
 		draw_circle(end, 4.0, Color(0.7, 0.15, 0.5))
 

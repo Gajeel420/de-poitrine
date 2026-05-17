@@ -78,7 +78,7 @@ func _draw_background() -> void:
 	draw_rect(Rect2(0, 0, 640, 160), Color(0.48, 0.48, 0.52))
 	# Cloud masses
 	for i in range(6):
-		var cx := fmod(t * 0.15 + i * 110, 740) - 50
+		var cx: float = fmod(t * 0.15 + i * 110, 740) - 50
 		var cy2 := 60 + i % 3 * 20
 		for j in range(24):
 			var a := j * TAU / 24.0
@@ -88,7 +88,7 @@ func _draw_background() -> void:
 
 	# Bluffs in distance
 	for i in range(5):
-		var bx := fmod(t * 0.25 + i * 130, 790) - 100
+		var bx: float = fmod(t * 0.25 + i * 130, 790) - 100
 		draw_colored_polygon(
 			PackedVector2Array([Vector2(bx, 165), Vector2(bx + 30, 100), Vector2(bx + 100, 90), Vector2(bx + 140, 165)]),
 			Color(0.25, 0.28, 0.22)
@@ -111,7 +111,7 @@ func _draw_background() -> void:
 
 	# Scattered yield signs (recovering / corrupted, floating in the field)
 	for i in range(12):
-		var sx := fmod(t * 0.8 + i * 55, 720) - 55
+		var sx: float = fmod(t * 0.8 + i * 55, 720) - 55
 		var sy := 195 + i % 4 * 10
 		var is_corrupt := i % 3 != 0
 		if is_corrupt:
@@ -128,8 +128,8 @@ func _draw_background() -> void:
 	# Time signature indicator (subtle, bottom-right)
 	var ts_text_col := Color(0.9, 0.85, 0.6, 0.5)
 	for beat in range(current_time_sig):
-		var bx := 590 + beat * 8 if beat < 5 else 590 + (beat - 5) * 8
-		var by := 340 if beat < 5 else 350
-		var beat_on := fmod(time_sig_timer, 0.5) < 0.25 and beat == int(fmod(time_sig_timer, float(current_time_sig)))
+		var bx: int = 590 + beat * 8 if beat < 5 else 590 + (beat - 5) * 8
+		var by: int = 340 if beat < 5 else 350
+		var beat_on: bool = fmod(time_sig_timer, 0.5) < 0.25 and beat == int(fmod(time_sig_timer, float(current_time_sig)))
 		draw_rect(Rect2(bx, by, 5, 6), Color(0.9, 0.85, 0.6, 0.8 if beat_on else 0.3))
 

@@ -43,7 +43,7 @@ func _physics_process(delta: float) -> void:
 		_change_meter()
 
 	# Vulnerability window opens on beat 1 of each measure
-	var beat_in_measure := fmod(beat_clock, beat_period)
+	var beat_in_measure: float = fmod(beat_clock, beat_period)
 	vulnerability_open = beat_in_measure < 0.12  # 120ms window on the beat
 
 	if proj_timer <= 0.0:
@@ -105,8 +105,8 @@ func _update_projectiles(delta: float) -> void:
 
 func _draw_enemy() -> void:
 	var chrome := Color(0.75, 0.80, 0.85)
-	var accent := Color(0.3, 0.6, 1.0) if vulnerability_open else Color(0.9, 0.2, 0.1)
-	var fx := 1 if facing_right else -1
+	var accent: Color = Color(0.3, 0.6, 1.0) if vulnerability_open else Color(0.9, 0.2, 0.1)
+	var fx: int = 1 if facing_right else -1
 
 	# Chrome legs
 	draw_rect(Rect2(-12, -20, 9, 20), chrome)
@@ -123,8 +123,8 @@ func _draw_enemy() -> void:
 	# Meter display (bars representing beats)
 	for b in range(current_meter):
 		var beat_x := -9.0 + b * (18.0 / current_meter)
-		var is_current := fmod(beat_clock / beat_period, current_meter) < b + 1 and fmod(beat_clock / beat_period, current_meter) >= b
-		var bar_col := accent if is_current else Color(0.3, 0.4, 0.5)
+		var is_current: bool = fmod(beat_clock / beat_period, current_meter) < b + 1 and fmod(beat_clock / beat_period, current_meter) >= b
+		var bar_col: Color = accent if is_current else Color(0.3, 0.4, 0.5)
 		draw_rect(Rect2(beat_x, -46, 18.0 / current_meter - 1, 14), bar_col)
 
 	# Vulnerability indicator ring
@@ -142,7 +142,7 @@ func _draw_enemy() -> void:
 	# Scrolling metadata text (simulated as lines)
 	for row in range(3):
 		var line_w := 12.0 - row * 3.0
-		var scroll_x := fmod(-Time.get_ticks_msec() * 0.02 + row * 6, 20) - 10
+		var scroll_x: float = fmod(-Time.get_ticks_msec() * 0.02 + row * 6, 20) - 10
 		draw_rect(Rect2(scroll_x, -67 + row * 3, line_w, 2), accent)
 
 	# Arms
@@ -154,7 +154,7 @@ func _draw_enemy() -> void:
 
 	# Metadata projectiles
 	for proj in metadata_projectiles:
-		var lp := to_local(proj["pos"])
+		var lp = to_local(proj["pos"])
 		draw_circle(lp, 5.0, Color(0.3, 0.6, 0.9, 0.8))
 		draw_arc(lp, 7.0, 0, TAU, 8, Color(0.6, 0.8, 1.0, 0.5), 1.5)
 
