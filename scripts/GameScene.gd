@@ -30,6 +30,7 @@ func _load_stage(stage_num: int) -> void:
 	stage.set_script(stage_script)
 	add_child(stage)
 	current_stage_node = stage
+	GameManager.play_music_for_stage(stage_num)
 
 func _on_stage_changed(stage_num: int) -> void:
 	# Brief black fade between stages

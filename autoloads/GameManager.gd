@@ -25,6 +25,12 @@ var stage4_missed_sync: bool = false
 var shake_remaining: float = 0.0
 var shake_intensity: float = 0.0
 
+# --- Music ---
+var _music_player: AudioStreamPlayer = null
+var _current_music_path: String = ""
+const MUSIC_GRAVITY_BOUND := "res://assets/audio/gravity_bound.mp3"
+const MUSIC_FINAL_PANIC   := "res://assets/audio/final_level_panic.mp3"
+
 # Stage scene paths
 const STAGE_PATHS: Array[String] = [
 	"",  # index 0 unused
@@ -58,6 +64,10 @@ const STAGE_LOCATIONS: Array[String] = [
 
 func _ready() -> void:
 	_setup_input_actions()
+	_music_player = AudioStreamPlayer.new()
+	_music_player.bus = "Master"
+	_music_player.volume_db = -6.0
+	add_child(_music_player)
 
 func _process(delta: float) -> void:
 	if shake_remaining > 0.0:
@@ -133,6 +143,28 @@ func advance_stage() -> void:
 		get_tree().change_scene_to_file("res://scenes/Ending.tscn")
 	else:
 		stage_changed.emit(current_stage)
+
+func play_music(path: String, loop: bool = true) -> void:
+	if path == _current_music_path and _music_player.playing:
+		return
+	if not ResourceLoader.exists(path):
+		return
+	var stream := load(path)
+	if stream is AudioStreamMP3:
+		stream.loop = loop
+	_music_player.stream = stream
+	_music_player.play()
+	_current_music_path = path
+
+func stop_music() -> void:
+	_music_player.stop()
+	_current_music_path = ""
+
+func play_music_for_stage(stage_num: int) -> void:
+	if stage_num >= 6:
+		play_music(MUSIC_FINAL_PANIC)
+	else:
+		play_music(MUSIC_GRAVITY_BOUND)
 
 func game_over() -> void:
 	get_tree().change_scene_to_file("res://scenes/GameOver.tscn")

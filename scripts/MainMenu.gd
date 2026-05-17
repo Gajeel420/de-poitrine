@@ -11,6 +11,7 @@ func _ready() -> void:
 	rng.seed = 12345
 	for i in range(80):
 		stars.append(Vector3(rng.randf_range(0, 640), rng.randf_range(0, 280), rng.randf_range(0.3, 1.0)))
+	GameManager.play_music(GameManager.MUSIC_GRAVITY_BOUND)
 
 func _process(delta: float) -> void:
 	title_pulse += delta * 1.8
